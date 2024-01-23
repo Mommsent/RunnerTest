@@ -46,15 +46,18 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 isJumping = false;
-                animator.SetBool("isJumping", isJumping);
             }
         }
 
         if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
-            animator.SetBool("isJumping", isJumping);
             jumpTimer = 0f;
+        }
+
+        if(isGrounded == true)
+        {
+            animator.SetBool("isJumping", isJumping);
         }
     }
     #endregion
