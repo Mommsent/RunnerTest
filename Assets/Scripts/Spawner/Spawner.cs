@@ -5,9 +5,9 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject[] obstaclePrefabs;
     [SerializeField] private Transform obstaclePerent;
 
-    public float obstacleSpawnTime = 2f;
+    [SerializeField] private float obstacleSpawnTime = 2f;
     [Range(0f, 1f)] public float obstacleSpawnTimeFactor = 0.1f;
-    public float obstacleSpeed = 1f;
+    [SerializeField] private float obstacleSpeed = 1f;
     [Range(0f, 1f)] public float obstacleSpeedFactor = 0.2f;
 
     private float _obstacleSpawnTime;
@@ -16,16 +16,20 @@ public class Spawner : MonoBehaviour
     private float timeUntilObstacleSpawn;
     private float timeAlive;
 
+    private bool isPlaying;
+
     private void Start()
     {
         GameManager.Instance.GameEnded += ClearObstacles;
+        GameManager.Instance.GameEnded += Stop;
         GameManager.Instance.GameStarted += ResetFactors;
+
         timeAlive = 1f;
     }
 
     void Update()
     {
-        if(GameManager.Instance.isPlaying)
+        if(isPlaying)
         {
             timeAlive += Time.deltaTime;
             CalculateFactor();
@@ -46,6 +50,7 @@ public class Spawner : MonoBehaviour
 
     private void ResetFactors()
     {
+        isPlaying = true;
         timeAlive = 1f;
         _obstacleSpawnTime = obstacleSpawnTime;
         _obstacleSpeed = obstacleSpeed;
@@ -70,9 +75,22 @@ public class Spawner : MonoBehaviour
 
     private void ClearObstacles()
     {
-        foreach(Transform chiled in obstaclePerent)
+        
+        foreach (Transform chiled in obstaclePerent)
         {
             Destroy(chiled.gameObject);
         }    
+    }
+
+    private void Stop()
+    {
+        isPlaying = false;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.GameEnded -= ClearObstacles;
+        GameManager.Instance.GameEnded -= Stop;
+        GameManager.Instance.GameStarted -= ResetFactors;
     }
 }

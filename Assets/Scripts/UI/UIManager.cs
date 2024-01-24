@@ -6,37 +6,45 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject mainMenu;
 
-    [SerializeField] private GameManager gameManager;
+    [SerializeField] private Score score;
 
     [SerializeField] private TextMeshProUGUI currentScoreText;
     [SerializeField] private TextMeshProUGUI highestScoreText;
 
     private void Start()
     {
-        gameManager = GameManager.Instance;
-        gameManager.GameStarted += HideUI;
-        gameManager.GameEnded += ShowUI;
+        GameManager.Instance.GameStarted += HideUI;
+        GameManager.Instance.GameEnded += ShowUI;
+        ShowUI();
     }
+
     private void OnGUI()
     {
-        scoreText.text = gameManager.PrettyScore(GameManager.Instance.currentScore);
+        scoreText.text = PrettyScore(score.CurrentScore);
     }
 
     private void HideUI()
     {
+        score.SetStarter();
         mainMenu.SetActive(false);
     }
 
     private void ShowUI()
     {
         mainMenu.SetActive(true);
-        currentScoreText.text = "Current score " + gameManager.PrettyScore(gameManager.currentScore);
-        highestScoreText.text = "Highest score " + gameManager.PrettyScore(gameManager.saveData.highestScore);
+        score.SetTheBest();
+        currentScoreText.text = "Current score " + PrettyScore(score.CurrentScore);
+        highestScoreText.text = "Highest score " + PrettyScore(score.TheBestScore);
+    }
+
+    private string PrettyScore(float score)
+    {
+        return Mathf.RoundToInt(score).ToString();
     }
 
     private void OnDisable()
     {
-        gameManager.GameStarted -= HideUI;
-        gameManager.GameEnded -= ShowUI;
+        GameManager.Instance.GameStarted -= HideUI;
+        GameManager.Instance.GameEnded -= ShowUI;
     }
 }
