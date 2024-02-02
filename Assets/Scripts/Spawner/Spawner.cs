@@ -18,11 +18,13 @@ public class Spawner : MonoBehaviour
 
     private bool isPlaying;
 
+    [SerializeField] GameManager gameManager;
+
     private void Start()
     {
-        GameManager.Instance.GameEnded += ClearObstacles;
-        GameManager.Instance.GameEnded += Stop;
-        GameManager.Instance.GameStarted += ResetFactors;
+        gameManager.GameEnded += ClearObstacles;
+        gameManager.GameEnded += Stop;
+        gameManager.GameStarted += ResetFactors;
 
         timeAlive = 1f;
     }
@@ -89,8 +91,8 @@ public class Spawner : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.Instance.GameEnded -= ClearObstacles;
-        GameManager.Instance.GameEnded -= Stop;
-        GameManager.Instance.GameStarted -= ResetFactors;
+        gameManager.GameEnded -= ClearObstacles;
+        gameManager.GameEnded -= Stop;
+        gameManager.GameStarted -= ResetFactors;
     }
 }

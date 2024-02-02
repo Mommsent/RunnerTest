@@ -7,8 +7,8 @@ public class PlayersSprite : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.GameStarted += Show;
-        GameManager.Instance.GameEnded += Hide;
+        gameManager.GameStarted += Show;
+        gameManager.GameEnded += Hide;
     }
 
     private void Show()
@@ -23,7 +23,7 @@ public class PlayersSprite : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.Instance.GameStarted -= Show;
-        GameManager.Instance.GameEnded -= Hide;
+        gameManager.GameStarted -= Show;
+        gameManager.GameEnded -= Hide;
     }
 }

@@ -11,10 +11,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI currentScoreText;
     [SerializeField] private TextMeshProUGUI highestScoreText;
 
+    [SerializeField] private GameManager gameManager;
+
     private void Start()
     {
-        GameManager.Instance.GameStarted += HideUI;
-        GameManager.Instance.GameEnded += ShowUI;
+        gameManager.GameStarted += HideUI;
+        gameManager.GameEnded += ShowUI;
         ShowUI();
     }
 
@@ -44,7 +46,7 @@ public class UIManager : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.Instance.GameStarted -= HideUI;
-        GameManager.Instance.GameEnded -= ShowUI;
+        gameManager.GameStarted -= HideUI;
+        gameManager.GameEnded -= ShowUI;
     }
 }

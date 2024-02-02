@@ -5,13 +5,9 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Button startButton;
-    
-    public static GameManager Instance { get; private set; }
+
     private void Awake()
     {
-        if(Instance == null)
-            Instance = this;
-
         startButton.onClick.AddListener(StartGame);
     }
 
